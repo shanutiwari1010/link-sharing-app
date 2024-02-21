@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
-import CustomSocialLinks from "../SocialLinks/index";
-import { useState, useEffect } from "react";
+import SocialLinks from "../SocialLinks/index";
 
 function CustomizeLinks() {
   const [links, setLinks] = useState([]);
@@ -10,7 +9,7 @@ function CustomizeLinks() {
     setLinks([...links, { platform: "", link: "" }]);
   };
 
-  const removeLink = (index) => {
+  const removeLink = (index, platform) => {
     const updatedLinks = [...links];
     updatedLinks.splice(index, 1);
     setLinks(updatedLinks);
@@ -30,45 +29,49 @@ function CustomizeLinks() {
         world!
       </p>
 
-      {links.map((link, index) => (
-        <CustomSocialLinks
-          key={index}
-          platform={link.platform}
-          link={link.link}
-          onRemove={() => removeLink(index)}
-          onUpdate={(platform, link) => updateLink(index, platform, link)}
-        />
-      ))}
-
       <Button
         onClick={addNewLink}
         variant="secondary"
-        sixe="lg"
+        size="lg"
         className="bg-gray-100 mx-10 border border-purple-500 text-purple-500 py-6"
       >
-        + Add new links
+        + Add new link
       </Button>
 
-      <CustomSocialLinks links={links} />
+      {links.map((link, index) => (
+        <SocialLinks
+          key={index}
+          id={index}
+          platform={link.platform}
+          link={link.link}
+          onRemove={() => removeLink(index, link.platform)}
+          onUpdate={(platform, link) => updateLink(index, platform, link)}
+          s
+        />
+      ))}
     </div>
   );
 }
 
 export default CustomizeLinks;
 
-// const [socialLinks, setSocialLinks] = useState([
-//   // Initial list of social links
-//   { id: 1, name: 'Twitter', url: 'https://twitter.com' },
-//   // Add more social links as needed
-// ]);
+//
 
-// const handleAddLink = () => {
-//   // Generate a new unique ID for the new link
-//   const newLinkId = Math.max(...socialLinks.map(link => link.id), 0) + 1;
+//   const addNewLink = () => {
+//     const timestamp = Date.now(); // Unique ID using timestamp
+//     setLinks([...links, { id: timestamp, platform: "", link: "" }]);
+//   };
 
-//   // Add a new social link to the state
-//   setSocialLinks(prevLinks => [
-//     ...prevLinks,
-//     { id: newLinkId, name: 'New Link', url: '#' },
-//   ]);
-//     };
+//   const removeLink = (id) => {
+//     const updatedLinks = links.filter((link) => link.id !== id);
+//     setLinks(updatedLinks);
+//   };
+
+//   const updateLink = (id, platform, link) => {
+//     const updatedLinks = links.map((linkItem) =>
+//       linkItem.id === id ? { ...linkItem, platform, link } : linkItem
+//     );
+//     setLinks(updatedLinks);
+//   };
+
+//   r

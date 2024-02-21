@@ -1,3 +1,55 @@
+// // SocialLinks.js
+// import React from "react";
+// import { Equal } from "lucide-react";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import { Button } from "../ui/button";
+// import { Link } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+
+// function SocialLinks({ idx, onRemove }) {
+//   const handleRemove = () => {
+//     onRemove(idx);
+//   };
+
+//   return (
+//     <div className="bg-gray-100 m-10 rounded-xl">
+//       <div className="flex justify-between mt-5 font-extrabold text-gray-500">
+//         <h3 className="flex items-center gap-1  ml-4">
+//           {" "}
+//           <Equal className="" /> Link #{idx + 1}
+//         </h3>
+//         <button className="text-gray-500 font-normal mr-4" onClick={handleRemove}>
+//           Remove
+//         </button>
+//       </div>
+//       <p className="m-4 mb-1 text-gray-500 text-sm font-semibold">Platform</p>
+//       <Select>
+//         <SelectTrigger className="mt-0 mx-4 max-w-screen-xl">
+//           <SelectValue placeholder="Links" />
+//         </SelectTrigger>
+//         <SelectContent>
+//           <SelectItem value="github">Github</SelectItem>
+//           <SelectItem value="youtube">YouTube</SelectItem>
+//           <SelectItem value="linkedin">LinkedIn</SelectItem> {/* Corrected typo */}
+//           <SelectItem value="twitter">Twitter</SelectItem>
+//         </SelectContent>
+//       </Select>
+
+//       <p className="text-gray-500 text-sm  m-4 mb-0 font-semibold">Link</p>
+//       <Input className="max-w-screen-xl mx-4 mb-5" />
+//     </div>
+//   );
+// }
+
+// export default SocialLinks;
+
+// SocialLinks.js
 import React from "react";
 import { Equal } from "lucide-react";
 import {
@@ -7,64 +59,55 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "../ui/button";
-import { Link } from "lucide-react";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
+function SocialLinks({ id, platform, link, onRemove, onUpdate }) {
+  const handleRemove = () => {
+    onRemove(id, platform);
+  };
 
-function CustomSocialLinks() {
+  const handleLinkChange = (e) => {};
+
   return (
     <div className="bg-gray-100 m-10 rounded-xl">
       <div className="flex justify-between mt-5 font-extrabold text-gray-500">
         <h3 className="flex items-center gap-1  ml-4">
-          {" "}
-          <Equal className=""/> Link #1
+          <Equal className="" /> Link #{id}
         </h3>
-        <button className="text-gray-500 font-normal mr-4">Remove</button>
+        <button
+          className="text-gray-500 font-normal mr-4"
+          onClick={handleRemove}
+        >
+          Remove
+        </button>
       </div>
       <p className="m-4 mb-1 text-gray-500 text-sm font-semibold">Platform</p>
-      <Select >
+      <Select
+        onValueChange={(value) => {
+          onUpdate(value, link);
+        }}
+      >
         <SelectTrigger className="mt-0 mx-4 max-w-screen-xl">
           <SelectValue placeholder="Links" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="github">Github</SelectItem>
           <SelectItem value="youtube">YouTube</SelectItem>
-          <SelectItem value="linkdin">Linkdin</SelectItem>
+          <SelectItem value="linkedin">LinkedIn</SelectItem>
           <SelectItem value="twitter">Twitter</SelectItem>
         </SelectContent>
       </Select>
 
-      <p className="text-gray-500 text-sm  m-4 mb-0 font-semibold">Link</p>
-      <Input className="max-w-screen-xl mx-4 mb-5" />
+      <p className="text-gray-500 text-sm m-4 mb-0 font-semibold">Link</p>
+      <Input
+        className="max-w-screen-xl mx-4 mb-5"
+        value={link}
+        onChange={(e) => {
+          onUpdate(platform, e.target.value);
+        }}
+      />
     </div>
   );
 }
 
-function SocialLinks({ links, onAdd, onRemove, onUpdate }) {
-  return (
-    <div>
-      {links.map((link, index) => (
-        <SocialLinks
-          key={index}
-          platform={link.platform}
-          link={link.link}
-          onRemove={() => onRemove(index)}
-          onUpdate={(platform, link) => onUpdate(index, platform, link)}
-        />
-      ))}
-      <Button
-        variant="secondary"
-        size="lg"
-        className="bg-gray-100 mx-10 border border-purple-500 text-purple-500 py-6"
-        onClick={onAdd}
-      >
-        + Add new link
-      </Button>
-    </div>
-  );
-}
-
-
-
-export default CustomSocialLinks;
+export default SocialLinks;
